@@ -3,9 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="index.js"></script>
     <title>Stop Watch App</title>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="watch">
+            <div class="outer-circle">
+                <div class="inner-circle">
+                    <span class="text minute">01 :</span>
+                    <span class="text sec">&nbsp;47 :</span>
+                    <span class="text msec">&nbsp;97</span>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="button reset hidden">Reset</button>
+                <button class="button start">Start</button>
+                <button class="button lap hidden">Laps</button>
+            </div>
+        </div>
+        <ul class="laps">
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <li class="lap-item">
+                <span class="number">#1</span>
+                <span class="time-stamp">01 : 43 : 07</span>
+            </li>
+            <button class="lap-clear-button">Clear All</button>
+        </ul>
+    </div>
 </body>
 </html>
