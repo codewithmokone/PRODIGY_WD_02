@@ -1,97 +1,113 @@
-const resetButton = document.querySelector('.reset');
-const startButton = document.querySelector('.start');
-const lapButton = document.querySelector('.lap');
-const clearButton = document.querySelector('.lap-clear-button');
-const minute = document.querySelector('.minute');
-const second = document.querySelector('.second');
-const milliSecond = document.querySelector('.mSecond');
-const laps = document.querySelector('.laps');
+// Select various elements from the DOM interaction
+const resetButton = document.querySelector('.reset'); // Reset button element
+const startButton = document.querySelector('.start'); // Start button element
+const lapButton = document.querySelector('.lap');  // Lab button element
+const clearButton = document.querySelector('.lap-clear-button'); // Clear laps button element
+const minute = document.querySelector('.minute'); // Display for minutes
+const second = document.querySelector('.second'); // Display for seconds
+const milliSecond = document.querySelector('.mSecond'); // Display for milliseconds
+const laps = document.querySelector('.laps'); // Container for lap records
 
-let min;
-let sec;
-let mSec;
-let minCounter = 0;
-let secCounter = 0;
-let mSecCounter = 0;
-let lapItem = 0;
-let isPlay = false;
-let isReset = false;
+// Variables for time intervals and counters
+let min; // Interval for minute counter
+let sec; // Interval for second counter
+let mSec; // Interval for millisecond counter
+let minCounter = 0; // Minutes count
+let secCounter = 0; // Seconds count
+let mSecCounter = 0; // Milliseconds count
+let lapItem = 0; // Lap count
+let isPlay = false; // Status to check if the stopwatch is running
+let isReset = false; // Status to check if the stopwatch has been reset
 
-
+// Function to toggle visibility of reset button and lap buttons
 const toggleButton = () => {
-  resetButton.classList.remove('hidden');
-  lapButton.classList.remove('hidden');
+  resetButton.classList.remove('hidden'); // Show reset button
+  lapButton.classList.remove('hidden'); // Show lap button
 };
 
-
+// Function to start and stop the stopwatch
 const start = () => {
+    // Check if stopwatch is not already running and has not been reset
     if(!isPlay && !isReset){
-        startButton.innerText = 'Stop';
+        startButton.innerText = 'Stop'; // Change button text to 'Stop'
+
+        // Set interval fro minute counter (every 60 seconds)
         min = setInterval(() => {
-            minute.innerText = `${++minCounter}.`;
-        }, 60*1000)
+            minute.innerText = `${++minCounter}.`; // Update minute display
+        }, 60*1000);
+
+        // Set interval for second counter (every 1 second)
         sec = setInterval(() => {
             if(secCounter === 60){
-                secCounter = 0;
+                secCounter = 0; // Reset second counter if it reaches 60
             }
-            second.innerText = `${++secCounter}.`;
+            second.innerText = `${++secCounter}.`; // Update second display
         }, 1000)
+
+        // Set interval for second counter (every 10 milliseconds)
         mSec = setInterval(() => {
             if(mSecCounter === 100){
-                mSecCounter = 0;
+                mSecCounter = 0; // Reset millisecond counter if it reaches 100
             }
-            milliSecond.innerText = `${++mSecCounter}`;
+            milliSecond.innerText = `${++mSecCounter}`; // Update millisecond display
         }, 10)
-        isPlay = true;
-        isReset = true;
+        isPlay = true; // Set status to playing
+        isReset = true; // indicate that stopwatch is not reset
     }else{
-        startButton.innerText = 'Start';
-        clearInterval(min);
-        clearInterval(sec);
-        clearInterval(mSec);
-        isPlay = false;
-        isReset = false;
+        // If stopwatch is running, stop it
+        startButton.innerText = 'Start'; // change button text to 'start'
+        clearInterval(min); // Clear minute interval
+        clearInterval(sec); // Clear second interval
+        clearInterval(mSec); // Clear millisecond interval
+        isPlay = false; // Set status to not playing
+        isReset = false; // indicate that stopwatch can be reset
     }
-  toggleButton();
+  toggleButton(); // Update button visibility
 };
 
 
-// Reset the watch
+// Function to reset the stopwatch
 const reset = () => {
-    isReset = true;
-    start();
-    resetButton.classList.add('hidden');
-    lapButton.classList.add('hidden');
+    isReset = true; // Indicate that stopwatch is being reset
+    start(); // Stop the stopwatch if it is running
+    resetButton.classList.add('hidden'); // Hide reset button
+    lapButton.classList.add('hidden'); // Hide lap button
+
+    // Reset time displays
     minute.innerText = '0 :';
     second.innerText = '0 .';
     milliSecond.innerText = '0';
 }
 
+// Function to record a lap
 const lap = () => {
-    const li = document.createElement('li');
-    const number = document.createElement('span');
-    const timeStamp = document.createElement('span');
+    const li = document.createElement('li'); // Create new list item for the lap
+    const number = document.createElement('span'); // Create span for lap number
+    const timeStamp = document.createElement('span'); //Create span for timestamp
 
-    li.setAttribute('class', 'lap-item');
-    number.setAttribute('class', 'number');
-    timeStamp.setAttribute('class','time-stamp');
+    li.setAttribute('class', 'lap-item'); // Add class for li
+    number.setAttribute('class', 'number'); // Add class for lap number
+    timeStamp.setAttribute('class','time-stamp'); // Add class for timestamp
 
-    number.innerText = `${++lapItem}`;
-    timeStamp.innerText = `${minCounter} : ${secCounter} : ${mSecCounter}`;
+    number.innerText = `${++lapItem}`; // Set lap number
+    timeStamp.innerText = `${minCounter} : ${secCounter} : ${mSecCounter}`; // Set timestamp text
 
+    // Append lap number and timestamp to list item
     li.append(number, timeStamp);
-    laps.append(li);
+    laps.append(li); // Add the list item to the laps container
 
-    clearButton.classList.remove('hidden');
+    clearButton.classList.remove('hidden'); // Showw clear button
 }
 
+// function to clear all lap records
 const clearAll = () => {
-    laps.innerHTML = '';
-    laps.append(clearButton);
-    clearButton.classList.add('hidden');
+    laps.innerHTML = ''; // Clear all lap records
+    laps.append(clearButton); // Re-append the clear button
+    clearButton.classList.add('hidden'); // hide the clear button
 }
 
-startButton.addEventListener('click', start);
-resetButton.addEventListener('click',reset);
-lapButton.addEventListener('click',lap);
-clearButton.addEventListener('click',clearAll);
+// Event listeners for buttons
+startButton.addEventListener('click', start); // Start/Stop button click event
+resetButton.addEventListener('click',reset); // Reset button click event
+lapButton.addEventListener('click',lap); // Lap button click event
+clearButton.addEventListener('click',clearAll); // Clear laps button click event
