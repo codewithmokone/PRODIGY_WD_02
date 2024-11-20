@@ -1,6 +1,7 @@
 // Select various elements from the DOM interaction
 const resetButton = document.querySelector('.reset'); // Reset button element
 const startButton = document.querySelector('.start'); // Start button element
+const stopButton = document.querySelector('.stop'); // Stop button element
 const lapButton = document.querySelector('.lap');  // Lab button element
 const clearButton = document.querySelector('.lap-clear-button'); // Clear laps button element
 const minute = document.querySelector('.minute'); // Display for minutes
@@ -27,13 +28,16 @@ const toggleButton = () => {
 
 // Function to start and stop the stopwatch
 const start = () => {
+
     // Check if stopwatch is not already running and has not been reset
     if(!isPlay && !isReset){
-        startButton.innerText = 'Stop'; // Change button text to 'Stop'
+        stopButton.classList.remove('hidden'); // Shows the stop button
+        startButton.classList.add('hidden'); // Hides the start button
+        // startButton.innerText = 'Stop'; // Change button text to 'Stop'
 
         // Set interval fro minute counter (every 60 seconds)
         min = setInterval(() => {
-            minute.innerText = `${++minCounter}.`; // Update minute display
+            minute.innerText = `${String(++minCounter).padStart(2, '0')}.`; // Update minute display
         }, 60*1000);
 
         // Set interval for second counter (every 1 second)
@@ -41,7 +45,7 @@ const start = () => {
             if(secCounter === 60){
                 secCounter = 0; // Reset second counter if it reaches 60
             }
-            second.innerText = `${++secCounter}.`; // Update second display
+            second.innerText = `${String(++secCounter).padStart(2, '0')}:`; // Update second display
         }, 1000)
 
         // Set interval for second counter (every 10 milliseconds)
@@ -49,13 +53,14 @@ const start = () => {
             if(mSecCounter === 100){
                 mSecCounter = 0; // Reset millisecond counter if it reaches 100
             }
-            milliSecond.innerText = `${++mSecCounter}`; // Update millisecond display
+            milliSecond.innerText = `${String(++mSecCounter).padStart(2, '0')}`; // Update millisecond display
         }, 10)
         isPlay = true; // Set status to playing
         isReset = true; // indicate that stopwatch is not reset
     }else{
-        // If stopwatch is running, stop it
-        startButton.innerText = 'Start'; // change button text to 'start'
+        // If stopwatch is running, stop / pause it
+        stopButton.classList.add('hidden'); // Hides the stop button
+        startButton.classList.remove('hidden'); // Shows the start button
         clearInterval(min); // Clear minute interval
         clearInterval(sec); // Clear second interval
         clearInterval(mSec); // Clear millisecond interval
@@ -74,9 +79,9 @@ const reset = () => {
     lapButton.classList.add('hidden'); // Hide lap button
 
     // Reset time displays
-    minute.innerText = '0 :';
-    second.innerText = '0 .';
-    milliSecond.innerText = '0';
+    minute.innerText = '00:';
+    second.innerText = '00:';
+    milliSecond.innerText = '00';
 }
 
 // Function to record a lap
@@ -89,7 +94,7 @@ const lap = () => {
     number.setAttribute('class', 'number'); // Add class for lap number
     timeStamp.setAttribute('class','time-stamp'); // Add class for timestamp
 
-    number.innerText = `${++lapItem}`; // Set lap number
+    number.innerText = `Lap ${++lapItem}`; // Set lap number
     timeStamp.innerText = `${minCounter} : ${secCounter} : ${mSecCounter}`; // Set timestamp text
 
     // Append lap number and timestamp to list item
@@ -108,6 +113,7 @@ const clearAll = () => {
 
 // Event listeners for buttons
 startButton.addEventListener('click', start); // Start/Stop button click event
+stopButton.addEventListener('click', start); // Start/Stop button click event
 resetButton.addEventListener('click',reset); // Reset button click event
 lapButton.addEventListener('click',lap); // Lap button click event
 clearButton.addEventListener('click',clearAll); // Clear laps button click event
