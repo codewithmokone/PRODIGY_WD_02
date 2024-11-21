@@ -78,6 +78,9 @@ const reset = () => {
     resetButton.classList.add('hidden'); // Hide reset button
     lapButton.classList.add('hidden'); // Hide lap button
 
+    minCounter = 0;
+    secCounter = 0;
+    mSecCounter = 0;
     // Reset time displays
     minute.innerText = '00:';
     second.innerText = '00:';
